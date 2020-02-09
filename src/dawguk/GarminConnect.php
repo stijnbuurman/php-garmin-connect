@@ -162,7 +162,7 @@ class GarminConnect
             'ticket' => $strTicket
         );
 
-        $this->objConnector->post('https://connect.garmin.com/modern/', $arrParams, null, false);
+        $this->objConnector->post('https://connect.garmin.com/modern/', $arrParams, [], false);
         if ($this->objConnector->getLastResponseCode() != 302) {
             throw new UnexpectedResponseCodeException($this->objConnector->getLastResponseCode());
         }
@@ -327,6 +327,10 @@ class GarminConnect
      */
     public function getUsername()
     {
+        if (empty($this->getUser()->username)) {
+            return null;
+        }
+
         return $this->getUser()->username;
     }
 
