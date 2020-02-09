@@ -430,4 +430,32 @@ class GarminConnect
         $objResponse = json_decode($strResponse, true);
         return $objResponse;
     }
+
+    /**
+     * Retrieves daily heart rate data
+     *
+     * @param string $strDate
+     * @throws GarminConnect\exceptions\UnexpectedResponseCodeException
+     * @throws Exception
+     * @return array
+     */
+    public function getDailyHeartRate($strDate = NULL)
+    {
+        $arrParams = [];
+        if (isset($strDate)) {
+            $arrParams['date'] = $strDate;
+        }
+
+        $strResponse = $this->objConnector->get(
+            'https://connect.garmin.com/modern/proxy/wellness-service/wellness/dailyHeartRate/' . $this->getUser()->displayName,
+            $arrParams,
+            true
+        );
+
+        if ($this->objConnector->getLastResponseCode() != 200) {
+            throw new UnexpectedResponseCodeException($this->objConnector->getLastResponseCode());
+        }
+        $objResponse = json_decode($strResponse, true);
+        return $objResponse;
+    }
 }
