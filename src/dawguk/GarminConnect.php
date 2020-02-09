@@ -375,7 +375,7 @@ class GarminConnect
      * @throws Exception
      * @return array
      */
-    public function getWellnessData($strFrom = NULL, $strUntil = NULL)
+    public function getWellnessData($strFrom = NULL, $strUntil = NULL, $metricIds = [])
     {
         $arrParams = array();
         if (isset($strFrom)) {
@@ -383,6 +383,10 @@ class GarminConnect
         }
         if (isset($strUntil)) {
             $arrParams['untilDate'] = $strUntil;
+        }
+
+        if (count($metricIds) > 0) {
+            $arrParams['metricId'] = $metricIds;
         }
 
         $strResponse = $this->objConnector->get(

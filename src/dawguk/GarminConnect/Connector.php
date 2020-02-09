@@ -88,6 +88,8 @@ class Connector
             $strUrl .= '?' . http_build_query($arrParams);
         }
 
+        $strUrl = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '=', $strUrl);
+
         curl_setopt($this->objCurl, CURLOPT_URL, $strUrl);
         curl_setopt($this->objCurl, CURLOPT_FOLLOWLOCATION, (bool)$bolAllowRedirects);
         curl_setopt($this->objCurl, CURLOPT_CUSTOMREQUEST, 'GET');
