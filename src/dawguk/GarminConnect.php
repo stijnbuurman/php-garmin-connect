@@ -402,4 +402,32 @@ class GarminConnect
         return $objResponse;
     }
 
+    /**
+     * Retrieves daily steps data
+     *
+     * @param string $strFrom
+     * @param string $strUntil
+     * @throws GarminConnect\exceptions\UnexpectedResponseCodeException
+     * @throws Exception
+     * @return array
+     */
+    public function getDailySummaryChart($strDate = NULL)
+    {
+        $arrParams = [];
+        if (isset($strDate)) {
+            $arrParams['date'] = $strDate;
+        }
+
+        $strResponse = $this->objConnector->get(
+            'https://connect.garmin.com/modern/proxy/wellness-service/wellness/dailySummaryChart/' . $this->getUser()->displayName,
+            $arrParams,
+            true
+        );
+
+        if ($this->objConnector->getLastResponseCode() != 200) {
+            throw new UnexpectedResponseCodeException($this->objConnector->getLastResponseCode());
+        }
+        $objResponse = json_decode($strResponse, true);
+        return $objResponse;
+    }
 }
